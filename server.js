@@ -181,10 +181,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
+app.get("/", (req, res) => {
+  res.send("🚀 Backend funcionando en Railway");
+});
+
+
 // Iniciar servidor
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 
 });
+
 
