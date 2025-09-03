@@ -6,7 +6,7 @@ const auth = (roles = []) => {
     if (!token) return res.status(401).json({ error: 'Acceso denegado' });
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secreto');
+      const decoded = jwt.verify(token, 'secreto_tesis_2025' || 'secreto');
       req.user = decoded;
 
       const userRole = decoded.nombre_rol; // ← usamos nombre_rol (string)
@@ -23,3 +23,4 @@ const auth = (roles = []) => {
 };
 
 module.exports = auth;
+
