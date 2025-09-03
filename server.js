@@ -18,11 +18,19 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('CORS no permitido'));
+      // En lugar de lanzar un error, simplemente no permitir el origen
+      callback(null, false);
     }
   },
   credentials: true
 }));
+
+// Middleware adicional para asegurarnos que OPTIONS pase
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 
 app.use(express.json());
 
@@ -204,6 +212,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
