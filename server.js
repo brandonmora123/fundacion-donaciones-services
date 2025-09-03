@@ -7,27 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://fundacion-donaciones-site-production.up.railway.app'
-];
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS no permitido'));
-    }
-  },
-  credentials: true,
-}));
-
-// Esto asegura que OPTIONS preflight funcione
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
 
 app.use(express.json());
 
@@ -209,6 +189,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
