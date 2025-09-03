@@ -37,6 +37,7 @@ db.getConnection()
     console.error('❌ Error al conectar a la base de datos:', err.message);
   });
 
+
 // Middleware de autenticación
 const auth = (roles = []) => {
   return async (req, res, next) => {
@@ -186,3 +187,4 @@ app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 
 });
+
