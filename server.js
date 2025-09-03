@@ -13,6 +13,7 @@ const allowedOrigins = [
   'https://fundacion-donaciones-site-production.up.railway.app'
 ];
 
+
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -212,6 +213,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
