@@ -26,6 +26,7 @@ app.use(cors({
 
 app.use(express.json());
 
+
 // Conexión a MySQL (Railway)
 const db = mysql.createPool({
   host: 'ballast.proxy.rlwy.net',
@@ -203,6 +204,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
