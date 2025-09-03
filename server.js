@@ -8,25 +8,21 @@ require('dotenv').config();
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:3000',
-  'https://fundacion-donaciones-site-production.up.railway.app'
+  'https://fundacion-donaciones-site-production.up.railway.app',
+  'http://localhost:3000' // for local development
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, false); // Nunca lanzar error
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'CORS policy: Origin ' + origin + ' not allowed.';
+      return callback(new Error(msg), false);
     }
+    return callback(null, true);
   },
-  credentials: true,
-}));
-
-// Asegurar que OPTIONS funcione para preflight
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true,
+  credentials: true
 }));
 
 
@@ -210,6 +206,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
