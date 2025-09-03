@@ -7,23 +7,11 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 
-const allowedOrigins = [
-  'https://fundacion-donaciones-site-production.up.railway.app',
-  'http://localhost:3000' // for local development
-];
-
+// ✅ 1. CORS primero
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'CORS policy: Origin ' + origin + ' not allowed.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
+  origin: ['https://fundacion-donaciones-site-production.up.railway.app', 'http://localhost:3000'],
   credentials: true
-}));
+}))
 
 
 app.use(express.json());
@@ -206,6 +194,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
