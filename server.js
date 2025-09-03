@@ -9,7 +9,7 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin:'https://agile-nature-production.up.railway.app' || 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
@@ -185,3 +185,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 });
+
