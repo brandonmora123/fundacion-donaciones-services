@@ -10,7 +10,7 @@ const app = express();
 // Middlewares
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://fundacion-donaciones-site-production.up.railway.app'
+  'https://fundacion-donaciones-site-production.up.railway.app:8080/'
 ];
 
 app.use(cors({
@@ -212,6 +212,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
