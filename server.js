@@ -16,11 +16,11 @@ app.use(express.json());
 
 // Conexión a MySQL (Railway)
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: 'ballast.proxy.rlwy.net',
+  port: '27807',
+  user: 'root',
+  password: 'MbfaNyhHRDcGlKNxGbwHzEvGqzgpmgDI',
+  database: 'railway',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -184,4 +184,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
+
 });
