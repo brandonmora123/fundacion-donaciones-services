@@ -45,7 +45,7 @@ const auth = (roles = []) => {
     if (!token) return res.status(401).json({ error: 'Acceso denegado: Token no proporcionado' });
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, 'secreto_tesis_2025');
       const [rows] = await db.execute(
         'SELECT u.*, r.nombre_rol FROM usuarios u JOIN roles r ON u.id_rol = r.id_rol WHERE id_usuario = ? AND activo = 1',
         [decoded.id]
@@ -191,6 +191,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
