@@ -7,40 +7,20 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://fundacion-donaciones-site-production.up.railway.app'
-];
-
+// Middlewares
 app.use(cors({
-  origin: function(origin, callback) {
-    // permitir requests sin origen (ej. Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS no permitido'));
-    }
-  },
-  credentials: true,
-}));
-
-// Responder OPTIONS preflight
-app.options('*', cors({
-  origin: allowedOrigins,
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
-
-
 app.use(express.json());
-
 
 // Conexión a MySQL (Railway)
 const db = mysql.createPool({
-  host: 'ballast.proxy.rlwy.net',
-  port: '27807',
-  user: 'root',
-  password: 'MbfaNyhHRDcGlKNxGbwHzEvGqzgpmgDI',
-  database: 'railway',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -57,7 +37,6 @@ db.getConnection()
     console.error('❌ Error al conectar a la base de datos:', err.message);
   });
 
-
 // Middleware de autenticación
 const auth = (roles = []) => {
   return async (req, res, next) => {
@@ -65,7 +44,7 @@ const auth = (roles = []) => {
     if (!token) return res.status(401).json({ error: 'Acceso denegado: Token no proporcionado' });
 
     try {
-      const decoded = jwt.verify(token, 'secreto_tesis_2025');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const [rows] = await db.execute(
         'SELECT u.*, r.nombre_rol FROM usuarios u JOIN roles r ON u.id_rol = r.id_rol WHERE id_usuario = ? AND activo = 1',
         [decoded.id]
@@ -110,7 +89,7 @@ app.post('/api/auth/login', async (req, res) => {
   
       const token = jwt.sign(
         { id: user.id_usuario, rol: user.id_rol, nombre_rol: user.nombre_rol },
-        'secreto_tesis_2025',
+        process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
   
@@ -201,40 +180,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-app.get("/", (req, res) => {
-  res.send("🚀 Backend funcionando en Railway");
-});
-
-
 // Iniciar servidor
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Backend corriendo en el puerto ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Backend corriendo en http://localhost:${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
