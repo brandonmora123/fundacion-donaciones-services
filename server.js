@@ -90,7 +90,7 @@ app.post('/api/auth/login', async (req, res) => {
   
       const token = jwt.sign(
         { id: user.id_usuario, rol: user.id_rol, nombre_rol: user.nombre_rol },
-        process.env.JWT_SECRET,
+        'secreto_tesis_2025',
         { expiresIn: '24h' }
       );
   
@@ -191,6 +191,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Backend corriendo en el puerto ${PORT}`);
 });
+
 
 
 
