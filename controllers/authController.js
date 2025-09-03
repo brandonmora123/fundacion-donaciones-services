@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
   
       const token = jwt.sign(
         { id: user.id_usuario, rol: user.id_rol },
-        process.env.JWT_SECRET,
+        'secreto_tesis_2025',
         { expiresIn: '24h' }
       );
   
@@ -36,4 +36,5 @@ exports.login = async (req, res) => {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
+
   };
